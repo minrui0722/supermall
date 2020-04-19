@@ -1,0 +1,61 @@
+@import "./normalize.css";/*首先引入统一样式的第三方css文件，才会生效*/
+
+/*伪类:root -> 获取根元素html*/
+:root {
+  /*CSS中定义变量的方式*/
+  --color-text: #666;/*整体的字体颜色*/
+  --color-high-text: #ff5777;/*字体高亮的颜色*/
+  --color-tint: #ff8198;/*用于类似于导航的背景颜色*/
+  --color-background: #fff;/*白色的背景颜色*/
+  --font-size: 14px;/*整体上应用程序的字体大小*/
+  --line-height: 1.5;/*行高*/
+}
+
+/*设置所有元素标签及其前后的内外边距和boder-sizing*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  user-select: none; /* 禁止用户鼠标在页面上选中文字/图片等 */
+
+  /*禁用点击时的默认灰色高亮*/
+  -webkit-tap-highlight-color: transparent; /* webkit是苹果浏览器引擎，tap点击，highlight背景高亮，color颜色，颜色用数值调节 */
+  background: var(--color-background);
+  color: var(--color-text);
+  /* rem vw/vh 这里的意思是整个body的宽度为视口宽度*/
+  width: 100vw;/*vw/vh是相对于视口的宽度/高度，视口被划分为100单位的vm/vh*/
+}
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+/*清除浮动的类*/
+.clear-fix::after {
+  clear: both;
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.clear-fix {
+  zoom: 1;/*兼容IE浏览器，开启haslayout*/
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
