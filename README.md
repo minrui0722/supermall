@@ -1,24 +1,9 @@
 # supermall
 
-## Project setup
-```
-npm install
-```
+## 接口说明
+- **本项目的接口是coderwhy老师提供给大家学习的接口**，项目中的接口是错误的，请添加老师微信获取最新的接口
 
-### Compiles and hot-reloads for development
+### 运行
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
