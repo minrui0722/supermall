@@ -6,6 +6,7 @@ export function debounce(func,delay){
     if(timer) clearTimeout(timer);
     /*如果没有则重新设置定时器，并在规定的时间之后调用函数*/
     timer=setTimeout( ()=> {
+      /*改变this指向，否则this指向window*/
       func.apply(this,args);
     },delay)
   }

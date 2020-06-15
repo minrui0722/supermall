@@ -17,7 +17,6 @@
     <back-top v-show="isShowBackTop" @click.native="backClick"/>
     <detail-bottom-bar @addToCart="addToCart"/>
 
-
   </div>
 </template>
 
@@ -31,14 +30,19 @@
   import DetailCommentInfo from "./childComps/DetailCommentInfo";
   import GoodsList from "components/content/goods/GoodsList";
   import DetailBottomBar from "./childComps/DetailBottomBar";
+
+
   /*公共组件相关的导入*/
   import DetailSwiper from "./childComps/DetailSwiper";
   import Scroll from "components/common/scroll/Scroll";
   import {itemListMixin,backTopMixin} from "common/mixin";
+  import { mapActions } from 'vuex'
+
 
   /*网络请求相关的导入*/
   import {getDetail,Goods,shop,paramInfo,getRecommend} from "network/detail";
   import {debounce} from "common/utils";
+
 
   export default {
     name: "Detail",
@@ -81,7 +85,7 @@
       // 2.根据IID请求详情页的数据
       getDetail(this.iid).then(res=>{
         const data=res.result;
-        console.log(res);
+        //console.log(res);
         /*2.1获取顶部轮播图的信息*/
         this.topImages=data.itemInfo.topImages;
         /*2.2获取商品信息*/
@@ -130,7 +134,7 @@
       },100)
 
     },
-    mounted() {
+    mounted(){
       //1.接收GoodsListItem发送的图片加载完成的监听信息并作刷新
       /*-----方法2：对应GoodListItem中的图片加载信息，事件总线，一旦进入该页面，就不需要再监听该事件*/
       /*const refresh=debounce(this.$refs.scroll.refresh,20);
@@ -154,6 +158,7 @@
       this.$bus.$off('itemimgLoad',this.itemimgLisnter);
     },
     methods:{
+      ...mapActions(['addCart']),
       imgLoad(){
         /*接收到子组件DetailGoodsInfo.vue传递“所图片加载完成”的信息之后，刷新滚动区域*/
         this.refresh();
@@ -225,7 +230,25 @@
         product.price=this.goods.realPrice;
         product.iid=this.iid;
         //2.将商品添加到购物车里面
-        this.$store.dispatch('addCart',product);
+        /*映射方法*/
+        this.addCart(product).then(res => {
+          this.$toast.show(res,1000);
+        })
+        /*本笨法引入Toast
+        this.addCart(product).then(res => {
+          //console.log(res);
+          //显示和隐藏toast
+          this.show=true;
+          this.message=res;
+          /!*1s之后隐藏*!/
+          setTimeout(() => {
+            this.show = false;
+            this.message = "";//清空内容
+          },1000);
+        })*/
+        /*this.$store.dispatch('addCart',product).then(res => {
+          console.log(res)
+        });*/
         /*mutations中的操作代码*/
         //this.$store.commit('addCart',product);
       }
@@ -233,7 +256,6 @@
     }
   }
 </script>
-
 <style scoped>
   #detail{
     /*使用相对定位不会使其脱离文档流，知识利用定位的z-index来提高层级，覆盖掉下方的TabBar*/

@@ -40,7 +40,6 @@
   .recommend-item{
     flex: 1;
   }
-
   .recommend-item img{
     width: 70px;
     height: 70px;

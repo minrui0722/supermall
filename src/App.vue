@@ -3,6 +3,7 @@
     <keep-alive exclude="Detail">
       <router-view/>
     </keep-alive>
+    <!--显示底部的导航栏-->
     <main-tab-bar/>
   </div>
 </template>

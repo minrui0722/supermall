@@ -1,4 +1,5 @@
-import {ADD_COUNTER,ADD_TO_CART,CHECK_CLICK} from "./mutation-types";
+import {ADD_COUNTER,ADD_TO_CART,CHECK_CLICK,DELETE_INFO} from "./mutation-types";
+
 
 export default {
   [ADD_COUNTER](state,payload){
@@ -15,5 +16,19 @@ export default {
     //修改checked的值
     payload.checked = !payload.checked;
   },
+  [DELETE_INFO](state){
+    /*定义一个新的cartList*/
+    let newCartList = []
+    /*将未选中的商品信息重新存放在newCartList中*/
+    state.cartList.map(item => {
+      if(item.checked){
+        return
+      }
+      newCartList.push(item)
+    })
+    /*修改cartList的新指向*/
+    state.cartList = newCartList
+  }
+
 
 }

@@ -11,7 +11,12 @@
       <div class="item-desc">{{product.desc}}</div>
       <div class="info-bottom">
         <div class="item-price left">￥{{product.price}}</div>
-        <div class="item-count right">x{{product.count}}</div>
+        <!--<div class="item-count right">x{{product.count}}</div>-->
+        <div class="item-count right">
+          <button @click="decrease">-</button>
+          <span>{{product.count}}</span>
+          <button @click="increase">+</button>
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +40,10 @@
     methods:{
       checkClick(){
         this.$store.commit('checkClick',this.product);
+      },
+      decrease(){
+      },
+      increase(){
       }
     }
   }
@@ -93,5 +102,23 @@
   }
   .info-bottom .item-price{
     color: orangered;
+  }
+  .item-count{
+    width: 80px;
+    border: 1px solid #ebebeb;
+    display: flex;
+    text-align: center;
+    align-items: center;
+  }
+  .item-count button{
+    width: 20px;
+    background-color: #fff;
+    border: 0;
+  }
+  .item-count span{
+    flex: 1;
+    border-right: 1px solid #ebebeb;
+    border-left: 1px solid #ebebeb;
+    font-size: 12px;
   }
 </style>

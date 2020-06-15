@@ -6,7 +6,8 @@
 <template><!--在这里监听点击跳转详情页-->
   <div class="goods-item" @click="itemClick"><!--通过大组件GoodsList中的小组件GoodListItem展示商品信息-->
     <!--然后一次从请求到的书中，挑选出有用的数据并进行展示-->
-    <img :src="showImage" alt="" @load="imgLoad" ><!--这里只能是imgload-->
+    <!--<img :src="showImage" alt="" @load="imgLoad" >--><!--这里只能是imgload-->
+    <img v-lazy="showImage" @load="imgLoad"><!--图片懒加载方式，上面注释代码是普通正常方法-->
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -63,7 +64,7 @@
 
 <style scoped>
   .goods-item{
-    padding-bottom: 40px;/*设置各小组件之间的距离*/
+    padding-bottom: 40px;/*设置各小组件上下之间的距离*/
     position: relative;/*方便将整个文字信息直接定位到底部*/
 /*在这里设置小组件的宽度，为的是父组件开启flex且能够根据小组件爱的宽度来决定一行显示多少个小组件
 *但是这里不能把宽度写死(width: 150px;)，否则在不同的品目大小中呈现的效果不一致，应该用%

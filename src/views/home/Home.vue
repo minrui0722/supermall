@@ -35,6 +35,7 @@
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
     <!--回到顶部按钮-->
+    <!--在Home.vue组件中监听BackTop.vue组件的监听事件，监听组件的事件必须通过.native-->
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
@@ -47,7 +48,7 @@
 
   /*引入公共组件，注意顺序*/
   import NavBar from "components/common/navbar/NavBar";
-  import BScroll from "components/common/scroll/Scroll";
+  // import BScroll from "components/common/scroll/Scroll";
   import TabControl from "components/content/tabContrl/TabControl";
   import GoodsList from "components/content/goods/GoodsList";
   import BackTop from "components/content/backtop/BackTop";
@@ -65,8 +66,8 @@
     data(){
       return{
         //result:null,//默认值为null，用来保存网络请求中的数据
-        banners:[],
-        recommends:[],
+        banners:[],//保存轮播图片信息
+        recommends:[],//保存商品推荐信息
         goods:{
           /*默认将每个key的第一页的数据请求过来，至于第n页就根据用户的上拉加载来实现*/
           'pop':{page:0,list:[]},
@@ -88,7 +89,7 @@
       FeatureView,
 
       NavBar,
-      BScroll,
+      // BScroll,
       TabControl,
       GoodsList,
       BackTop
@@ -103,12 +104,21 @@
       this.getHomeGoods('pop');//请求流行数据
       this.getHomeGoods('new');//请求新款数据
       this.getHomeGoods('sell');//请求精选数据
+
     },
     mounted() {
+      //3.监听GoodListItem中的图片加载完成
+      // this.$bus.$on('itemimgLoad',()=>{
+      //   this.$refs.scroll.refresh();
+      // })
+
       //console.log('home混入测试');
+
       //1.图片加载完成的监听
-      //const refresh=debounce(this.$refs.scroll.refresh,20);
-      /*监听GoodListItem中的图片是否加载完成*/
+      // const refresh=debounce(this.$refs.scroll.refresh,20);
+      // /*监听GoodListItem中的图片是否加载完成*/
+      // this.$bus.$on('itemimgLoad',()=>{refresh()})
+
       /*对监听的事件进行保存*/
       /*this.itemimgLisnter=()=>{
         refresh();
@@ -126,7 +136,6 @@
       //注意顺序，必须是先刷新，再回到之前离开的位置，否则没有保持原来状态的效果
       /*当再次回到该路由的时候，设置滚动到保存的位置即可*/
       this.$refs.scroll.scrollTo(0,this.saveY,0);
-
     },
     deactivated() {
       /*1.离开时记录当前Y值*/
@@ -234,18 +243,19 @@
     z-index: 9;!*防止被后面的内容覆盖*!
   }*/
   /*--------法2：利用calc()实现中间部分区域的尺寸-------*/
-  /*.content{
-    overflow: hidden;
-    height: calc(100% - 44px - 49px);
-    margin-top: 44px;!*前提是去掉home的padding-top，并且必须为home设置height:100vh*!
-  }*/
+  /*.content{*/
+  /*  overflow: hidden;*/
+  /*  height: calc(100% - 44px - 49px);*/
+  /*  margin-top: 44px;!*前提是去掉home的padding-top，并且必须为home设置height:100vh*!*/
+  /*}*/
   /*--------法1：利用定位来实现中间部分区域的尺寸-------*/
   .content{
     overflow: hidden;
 /*设置中间部分内容的高度，前提是必须设置整个home高度为100vh*/
     position: absolute;
-    top:44px;
-    bottom: 49px;
+    top:44px;/*导航栏的高度*/
+    bottom: 49px;/*底部栏的高度*/
+    /*确保滚动区域为整个宽度*/
     left: 0;
     right: 0;
   }
